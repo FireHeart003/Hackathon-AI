@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Path Recommender</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Career Path Recommender</h1>
+    <form id="preferencesForm">
+        <label for="interests">Interests:</label>
+        <input type="text" id="interests" required><br><br>
+        
+        <label for="skills">Skills:</label>
+        <input type="text" id="skills" required><br><br>
+        
+        <label for="values">Values:</label>
+        <input type="text" id="values" required><br><br>
+        
+        <label for="workEnvironment">Preferred work environment:</label>
+        <input type="text" id="workEnvironment" required><br><br>
+        
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    <div id="recommendations"></div>
+
+    <script>
+        document.getElementById('preferencesForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userPreferences = {
+                interests: document.getElementById('interests').value,
+                skills: document.getElementById('skills').value,
+                values: document.getElementById('values').value,
+                workEnvironment: document.getElementById('workEnvironment').value
+            };
+            console.log(userPreferences);
+
+            try {
+                const response = await axios.post('/api/recommendations', userPreferences);
+                document.getElementById('recommendations').innerHTML = `
+                    <h2>Recommendations:</h2>
+                    <p>${response.data.recommendations}</p>
+                `;
+                console.log(response.data.recommendations);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('recommendations').innerHTML = '<p>Error getting recommendations. Please try again.</p>';
+            }
+        });
+    </script>
+</body>
+</html>
