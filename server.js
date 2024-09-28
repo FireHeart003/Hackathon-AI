@@ -15,10 +15,14 @@ const port = 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-// Serve the HTML file at the root path
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Route for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'query.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
 
 function validateInput(input) {
   return typeof input === 'string' && !/\d/.test(input);
