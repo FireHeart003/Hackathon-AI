@@ -2,6 +2,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from 'dotenv';
 //update the code so that user's can only input.. 
 
+var responseText = '';
+
 dotenv.config();
 
 const apiKey = process.env.GOOGLE_API_KEY;
@@ -22,6 +24,7 @@ async function getCareerRecommendations(userInput) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
+    responseText = text;
 
     const endTime = Date.now();
     console.log(`Gemini API call completed in ${endTime - startTime}ms`);
