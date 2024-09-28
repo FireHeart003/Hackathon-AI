@@ -20,14 +20,26 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'query.html'));
 });
 
+function validateInput(input) {
+  return typeof input === 'string' && !/\d/.test(input);
+}
+
 app.post('/api/recommendations', async (req, res) => {
   try {
     const userPreferences = req.body;
+    
+    // Validate each input
+    for (const [key, value] of Object.entries(userPreferences)) {
+      if (!validateInput(value)) {
+        return res.status(400).json({ error: `${key} should not contain numbers and must be a string.` });
+      }
+    }
+
     const recommendations = await processUserInput(userPreferences);
     res.json({ recommendations });
   } catch (error) {
     console.error('Error processing request:', error);
-    res.status(500).json({ error: `Server error: ${error.message}`, stack: error.stack });
+    res.status(500).json({ error: `Server error: ${error.message}` });
   }
 });
 

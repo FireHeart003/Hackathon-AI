@@ -4,46 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Career Path Recommender</title>
+    <link rel = "stylesheet" href = "query.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <h1>Career Path Recommender</h1>
-    <form id="preferencesForm">
-        <label for="interests">Interests:</label>
-        <input type="text" id="interests" required><br><br>
-        
-        <label for="skills">Skills:</label>
-        <input type="text" id="skills" required><br><br>
-        
-        <label for="values">Values:</label>
-        <input type="text" id="values" required><br><br>
-        
-        <label for="workEnvironment">Preferred work environment:</label>
-        <input type="text" id="workEnvironment" required><br><br>
-        
-        <button type="submit">Get Recommendations</button>
-    </form>
+    <div class="container">
+        <h1>Career Path Recommender</h1>
+        <form id="preferencesForm">
+            <div class="input-group">
+                <label for="interests">Interests:</label>
+                <input type="text" id="interests" required pattern="^[^0-9]*$">
+            </div>
+            
+            <div class="input-group">
+                <label for="skills">Skills:</label>
+                <input type="text" id="skills" required pattern="^[^0-9]*$">
+            </div>
+            
+            <div class="input-group">
+                <label for="values">Values:</label>
+                <input type="text" id="values" required pattern="^[^0-9]*$">
+            </div>
+            
+            <div class="input-group">
+                <label for="workEnvironment">Preferred work environment:</label>
+                <input type="text" id="workEnvironment" required pattern="^[^0-9]*$">
+            </div>
+            
+            <button type="submit">Get Recommendations</button>
+        </form>
 
-    <div id="recommendations"></div>
+        <div id="recommendations"></div>
+    </div>
 
     <script>
         document.getElementById('preferencesForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const userPreferences = {
-                interests: document.getElementById('interests').value,
-                skills: document.getElementById('skills').value,
-                values: document.getElementById('values').value,
-                workEnvironment: document.getElementById('workEnvironment').value
-            };
-            console.log(userPreferences);
+            const inputs = ['interests', 'skills', 'values', 'workEnvironment'];
+            const userPreferences = {};
+            let hasError = false;
+
+            inputs.forEach(input => {
+                const value = document.getElementById(input).value;
+                if (/\d/.test(value)) {
+                    alert(`${input.charAt(0).toUpperCase() + input.slice(1)} should not contain numbers.`);
+                    hasError = true;
+                } else {
+                    userPreferences[input] = value;
+                }
+            });
+
+            if (hasError) return;
 
             try {
                 const response = await axios.post('/api/recommendations', userPreferences);
-                document.getElementById('recommendations').innerHTML = `
-                    <h2>Recommendations:</h2>
-                    <p>${response.data.recommendations}</p>
-                `;
-                console.log(response.data.recommendations);
+                const cleanOutput = response.data.recommendations.replace(/\*\*/g, '');
+                const recommendations = cleanOutput.split('\n\n').filter(rec => rec.trim() !== '');
+
+                let formattedRecommendations = `<h2>Recommendations</h2><div class="recommendations-grid">`;
+                recommendations.forEach((recommendation, index) => {
+                    const [title, ...description] = recommendation.split(':');
+                    formattedRecommendations += `
+                        <div class="recommendation-block">
+                            <h3>${title.trim()}</h3>
+                            <p>${description.join(':').trim()}</p>
+                        </div>
+                    `;
+                });
+                formattedRecommendations += '</div>';
+
+                document.getElementById('recommendations').innerHTML = formattedRecommendations;
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('recommendations').innerHTML = '<p>Error getting recommendations. Please try again.</p>';
