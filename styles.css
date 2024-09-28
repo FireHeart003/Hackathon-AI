@@ -1,0 +1,136 @@
+body {
+    overflow-x: hidden;
+    background-color: #000000;
+}
+
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e0f20;
+    color: #ffffff;
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    background: linear-gradient(270deg, #1e0f20, #4e0557);
+    background-size: 400% 400%;
+    animation: gradient-animation 5s ease infinite;
+}
+
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+.logo {
+    font-size: 1.1em;
+    width: auto; 
+    height: auto; 
+    margin-left: 25px;
+    color: white;
+}
+
+.nav-links a:hover {
+    text-decoration: none;
+    transform: translate(0, -2px);
+    color: #FFFFFF; 
+}
+
+#navigationBar{
+    background-color: #1e0f20;
+    text-align: center;
+    position: fixed;
+}
+
+.nav-item {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    margin-top: 5px;
+    margin-right: 25px;
+}
+
+.nav-links a {
+    color: #ffffff;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 18px;
+    padding-bottom: 15px;
+    margin: 0px;
+    margin-right: 20px;
+    transition: transform .3s ease-out;
+    display: inline-block;
+}
+
+
+@media screen and (max-width: 450px) {
+    #navTitle {
+        font-size: 20px; 
+    }
+    
+    .nav-links {
+        margin-top: 10px; 
+    }
+}
+
+.jumbotron{
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background-image: url(images/bg2.jpg);
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #000000;
+    padding-top: 100px;
+    color: white;
+}
+
+.jumbotron h1{
+    font-size: 3em;
+    font-weight: 600;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.heading-back
+{
+    display: inline-block;
+    background-size: 400% 400%;
+    border-radius: 10px;
+}
+
+.heading{
+    margin-top: 20px;
+    padding-top: 100px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+.jumbotron p {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.buttons a button{
+    background-color: rgb(17, 15, 15);
+    color: #fff;
+    border: 1px solid #eaf0ed;
+}
+
+.buttons a button:hover{
+    text-decoration: none;
+    transform: translate(0, -2px);
+    border: 1px solid #eaf0ed;
+    background-color: rgb(17, 15, 15);
+}
