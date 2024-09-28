@@ -98,6 +98,8 @@ button:hover {
     border-radius: 5px;
     padding: 1rem;
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .recommendation-block h3 {
@@ -108,4 +110,25 @@ button:hover {
 
 .recommendation-block p {
     margin-bottom: 0;
+}
+
+.results-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #8a2be2;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.results-btn:hover {
+    background-color: #9b4deb;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    /* margin-top: 1rem; */
 }
