@@ -7,12 +7,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #007073;
+    background-color: #1e0f20;
     color: #ffffff;
     width: 100%;
     max-width: 100%;
     padding: 20px;
-    background: linear-gradient(270deg, #430b72, #4e0557);
+    background: linear-gradient(270deg, #1e0f20, #4e0557);
     background-size: 400% 400%;
     animation: gradient-animation 5s ease infinite;
 }
@@ -31,11 +31,10 @@ body {
 
 
 .logo {
-    max-width: 80px;
-    max-height: 80px; 
+    font-size: 1.1em;
     width: auto; 
     height: auto; 
-    margin-left: 40px;
+    margin-left: 25px;
     color: white;
 }
 
@@ -46,7 +45,7 @@ body {
 }
 
 #navigationBar{
-    background-color: #4e0557;
+    background-color: #1e0f20;
     text-align: center;
     position: fixed;
 }
@@ -57,7 +56,7 @@ body {
     padding: 0;
     display: flex;
     margin-top: 5px;
-    margin-right: 40px;
+    margin-right: 25px;
 }
 
 .nav-links a {
@@ -67,6 +66,7 @@ body {
     font-size: 18px;
     padding-bottom: 15px;
     margin: 0px;
+    margin-right: 20px;
     transition: transform .3s ease-out;
     display: inline-block;
 }
@@ -95,84 +95,42 @@ body {
     background-color: #000000;
     padding-top: 100px;
     color: white;
-    /* animation: animateBg 50s linear infinite; */
 }
 
-@keyframes animateBg{
-    0%{
-        transform: scale(1)
-    }
-    50%{
-        transform: scale(1.2)
-    }
+.jumbotron h1{
+    font-size: 3em;
+    font-weight: 600;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-span{
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    top: 50%;
-    left: 50%;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 0 4px rgba(255,255,255,0.1),
-    0 0 0 8px rgba(255,255,255,0.1),
-    0 0 20px rgba(255,255,255,1);
-    animation: animate 3s linear infinite;
+.heading-back
+{
+    display: inline-block;
+    background-size: 400% 400%;
+    border-radius: 10px;
 }
 
-/* span::before{
-    content: '';
-    position:absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 300px;
-    height: 1px;
-    background: linear-gradient(90deg, #fff, transparent);
+.heading{
+    margin-top: 20px;
+    padding-top: 100px;
+    margin-bottom: 30px;
+    border-radius: 10px;
 }
 
-@keyframes animate{
-    0%{
-        transform: rotate(315deg) translateX(0);
-    }
-    70%{
-        opacity: 1;
-    }
-    100%{
-        transform: rotate(315deg) translateX(0);
-        opacity: 0;
-    }
+.jumbotron p {
+    font-size: 1.2em;
+    font-weight: 600;
 }
 
-span:nth-child(1){
-    top:0;
-    right:0;
-    left: intiial;
-    animation-delay:0s;
-    animation-duration: 1s;
+.buttons a button{
+    background-color: rgb(17, 15, 15);
+    color: #fff;
+    border: 1px solid #eaf0ed;
 }
-span:nth-child(2){
-    top:0;
-    right:80px;
-    left: initial;
-    animation-delay:0.2s;
-    animation-duration: 3s;
+
+.buttons a button:hover{
+    text-decoration: none;
+    transform: translate(0, -2px);
+    border: 1px solid #eaf0ed;
+    background-color: rgb(17, 15, 15);
 }
-span:nth-child(4){
-    top:0px;
-    right:0px;
-    left: initial;
-    animation-delay:0.4s;
-    animation-duration: 2s;
-}
-span:nth-child(3){
-    top:80;
-    right:0px;
-    left: initial;
-    animation-delay:0.4s;
-    animation-duration: 2s;
-}
-#void{
-    background-color: #000000;
-}
- */
