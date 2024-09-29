@@ -47,6 +47,25 @@ app.post('/api/recommendations', async (req, res) => {
   }
 });
 
+app.post('/api/networking-recommendations', async (req, res) => {
+  try {
+    const userPreferences = req.body;
+    
+    // Validate each input
+    for (const [key, value] of Object.entries(userPreferences)) {
+      if (!validateInput(value)) {
+        return res.status(400).json({ error: `${key} should not contain numbers and must be a string.` });
+      }
+    }
+
+    const recommendations = await processUserInput(userPreferences, 'networking');
+    res.json({ recommendations });
+  } catch (error) {
+    console.error('Error processing networking request:', error);
+    res.status(500).json({ error: `Server error: ${error.message}` });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

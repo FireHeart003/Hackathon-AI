@@ -35,24 +35,61 @@ async function getCareerRecommendations(userInput) {
   }
 }
 
-// Function to process user input and get recommendations
-async function processUserInput(userPreferences) {
-  console.log('Starting processUserInput with preferences:', userPreferences);
-  const userInput = `
-    Interests: ${userPreferences.interests},
-    Skills: ${userPreferences.skills},
-    Values: ${userPreferences.values},
-    Preferred work environment: ${userPreferences.workEnvironment}
-  `;
+async function getNetworkingRecommendations(userInput) {
+    console.log('Starting getNetworkingRecommendations with input:', userInput);
+    try {
+      console.log('Calling Gemini API for networking recommendations...');
+      const startTime = Date.now();
+  
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  
+      const prompt = `Based on the following user preferences, suggest the top 3 school organizations or 
+      clubs to join that would be beneficial for networking and career development. 
+      For each organization, provide a brief description of its focus and potential benefits. 
+      User preferences: ${userInput}`;
+  
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text();
+      responseText = text;
+  
+      const endTime = Date.now();
+      console.log(`Gemini API call for networking completed in ${endTime - startTime}ms`);
+      return text;
+    } catch (error) {
+      console.error('Error in getNetworkingRecommendations:', error);
+      throw error;
+    }
+  }
 
+// Function to process user input and get recommendations
+async function processUserInput(userPreferences, type = 'career') {
+    console.log(`Starting processUserInput for ${type} with preferences:`, userPreferences);
+    const userInput = `
+      Interests: ${userPreferences.interests},
+      Skills: ${userPreferences.skills},
+      Values: ${userPreferences.values},
+      Preferred work environment: ${userPreferences.workEnvironment}
+    `;
+
+//   try {
+//     const recommendations = await getCareerRecommendations(userInput);
+//     console.log('Recommendations received:', recommendations);
+//     return recommendations;
+//   } catch (error) {
+//     console.error('Error in processUserInput:', error);
+//     return 'Unable to provide suggestions. Error: ' + error.message;
+//   }
   try {
-    const recommendations = await getCareerRecommendations(userInput);
+    const recommendations = type === 'career' 
+      ? await getCareerRecommendations(userInput)
+      : await getNetworkingRecommendations(userInput);
     console.log('Recommendations received:', recommendations);
     return recommendations;
   } catch (error) {
-    console.error('Error in processUserInput:', error);
+    console.error(`Error in processUserInput for ${type}:`, error);
     return 'Unable to provide suggestions. Error: ' + error.message;
   }
 }
 
-export { processUserInput, getCareerRecommendations };
+export { processUserInput/*, getCareerRecommendations*/ };

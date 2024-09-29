@@ -62,6 +62,7 @@ input[type="text"]::placeholder {
 }
 
 button {
+    margin-top: 2rem;
     width: 100%;
     padding: 0.75rem;
     background-color: #8a2be2;

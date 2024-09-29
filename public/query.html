@@ -31,15 +31,15 @@
                 <input type="text" id="workEnvironment" required pattern="^[^0-9]*$">
             </div>
             
-            <button type="submit">Get Recommendations</button>
+            <button type="submit" id="careerBtn">Get Career Recommendations</button>
+            <button type="button" id="networkingBtn">Get Networking Recommendations</button>
         </form>
 
         <div id="recommendations"></div>
     </div>
 
     <script>
-        document.getElementById('preferencesForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        async function getRecommendations(type) {
             const inputs = ['interests', 'skills', 'values', 'workEnvironment'];
             const userPreferences = {};
             let hasError = false;
@@ -57,19 +57,30 @@
             if (hasError) return;
 
             try {
-                const response = await axios.post('/api/recommendations', userPreferences);
+                const endpoint = type === 'career' ? '/api/recommendations' : '/api/networking-recommendations';
+                const response = await axios.post(endpoint, userPreferences);
                 const cleanOutput = response.data.recommendations.replace(/\*\*/g, '');
-                const recommendations = cleanOutput.split('\n\n').filter(rec => rec.trim() !== '');
+                const recommendations = cleanOutput.split(/\d+\.|\n(?=Bachelor)/).filter(rec => rec.trim() !== '');
 
-                let formattedRecommendations = `<h2>Recommendations</h2><div class="recommendations-grid">`;
+                let formattedRecommendations = `<h2>${type === 'career' ? 'Career' : 'Networking'} Recommendations</h2><div class="recommendations-grid">`;
                 recommendations.forEach((recommendation, index) => {
-                    const [title, ...description] = recommendation.split(':');
+                    let title, description;
+                    const lines = recommendation.trim().split('\n');
+                    title = lines[0].trim();
+                    description = lines.slice(1).join(' ').replace(/\*/g, '').trim();
+                    
+                    // If the title contains a colon, split it
+                    if (title.includes(':')) {
+                        [title, ...descriptionParts] = title.split(':');
+                        description = descriptionParts.join(':') + ' ' + description;
+                    }
+                    
                     formattedRecommendations += `
                         <div class="recommendation-block">
                             <h3>${title.trim()}</h3>
-                            <p>${description.join(':').trim()}</p>
+                            <p>${description.trim()}</p>
                             <div class="button-container">
-                                <a href="/results.html?id=${index}" class="results-btn">More Info</a>
+                                <a href="/results.html?id=${index}&type=${type}" class="results-btn">More Info</a>
                             </div>
                         </div>
                     `;
@@ -81,6 +92,15 @@
                 console.error('Error:', error);
                 document.getElementById('recommendations').innerHTML = '<p>Error getting recommendations. Please try again.</p>';
             }
+        }
+
+        document.getElementById('preferencesForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await getRecommendations('career');
+        });
+
+        document.getElementById('networkingBtn').addEventListener('click', async () => {
+            await getRecommendations('networking');
         });
     </script>
 </body>
